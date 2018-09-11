@@ -1,0 +1,1 @@
+# moneta-russia.ru.js
