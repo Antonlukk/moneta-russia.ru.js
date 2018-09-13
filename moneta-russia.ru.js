@@ -1,14 +1,7 @@
-var elements = [];
 var inMenu = document.querySelectorAll('#menu-main-menu li:nth-child(5)')[0];
-if (inMenu.length) {
-    elements.push(inMenu);
-}
-var inBlock = document.getElementById("id_market");
-if (inBlock) {
-    elements.push(inBlock);
-}
-if (elements.length) {
-    var xhr = new XMLHttpRequest();
+var inBlock = document.querySelectorAll(".menu_2 .left_menu li:nth-child(3) a")[0];
+var xhr = new XMLHttpRequest();
+if (inMenu || inBlock) {
     xhr.open(
         'GET',
         'https://www.raritetus.ru/service/checkAblePurchaseLink',
@@ -18,10 +11,14 @@ if (elements.length) {
         var status = xhr.status;
         if (status === 200) {
             if (typeof xhr.response.purchaseAble == typeof undefined
-                    || !xhr.response.purchaseAble)
+                || !xhr.response.purchaseAble)
             {
-                for (var i=0; i<elements.length;i++) {
-                    elements[i].style.display = 'none';
+                if (inMenu) {
+                    inMenu.style.display = 'none';
+                }
+                if (inBlock) {
+                    inBlock.text = "Купить монеты";
+                    inBlock.setAttribute("href", "https://www.monetnik.ru/search/?utm_source=moneta-russia-region");
                 }
             }
         }
