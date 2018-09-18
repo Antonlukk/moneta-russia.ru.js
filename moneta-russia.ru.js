@@ -1,27 +1,28 @@
-var inMenu = document.querySelectorAll('#menu-main-menu li:nth-child(5)')[0];
-var inBlock = document.querySelectorAll(".menu_2 .left_menu li:nth-child(3) a")[0];
-var xhr = new XMLHttpRequest();
-if (inMenu || inBlock) {
+var raritetus_links = document.querySelectorAll("a[href^='https://www.raritetus.ru/prodat-monety/']");
+if (raritetus_links.length) {
+    var xhr = new XMLHttpRequest();
     xhr.open(
-        'GET',
+        'get',
         'https://www.raritetus.ru/service/checkAblePurchaseLink',
         true);
     xhr.responseType = 'json';
     xhr.onload = function() {
         var status = xhr.status;
         if (status === 200) {
-            if (typeof xhr.response.purchaseAble == typeof undefined
-                || !xhr.response.purchaseAble)
-            {
-                if (inMenu) {
-                    inMenu.style.display = 'none';
-                }
-                if (inBlock) {
-                    inBlock.text = "Купить монеты";
-                    inBlock.setAttribute("href", "https://www.monetnik.ru/search/?utm_source=moneta-russia-region");
+            if (typeof xhr.response.purchaseAble == typeof undefined) {
+                console.log("ОШИБОЧНЫЙ ОТВЕТ от raritetus.ru");
+            } else if ( !  xhr.response.purchaseAble) {
+                for (var index in raritetus_links) {
+                    var aTag = raritetus_links[index];
+                    aTag.text = "Магазин монет";
+                    aTag.setAttribute("href", "https://www.monetnik.ru/search/?utm_source=moneta-russia-region");
                 }
             }
+        } else {
+            console.log("НЕ УДАЛОСЬ получить данные о городе от raritetus.ru!!!");
         }
     };
     xhr.send();
+} else {
+    console.log("Ссылок на www.raritetus.ru не найдено")
 }
