@@ -11,7 +11,8 @@ if (raritetus_links.length) {
         if (status === 200) {
             if (typeof xhr.response.purchaseAble == typeof undefined) {
                 console.log("ОШИБОЧНЫЙ ОТВЕТ от raritetus.ru");
-            } else if ( !  xhr.response.purchaseAble) {
+            } else if ( !xhr.response.purchaseAble
+                && window.location.toString().indexOf('raritetusMoscowShow') === -1) {
                 for (var i=0;i<raritetus_links.length; i++) {
                     var aTag = raritetus_links[i];
                     aTag.text = "Магазин монет";
